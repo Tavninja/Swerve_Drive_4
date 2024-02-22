@@ -1,7 +1,7 @@
 package frc.robot;
 
-import java.util.List;
 import edu.wpi.first.wpilibj.Joystick;
+import java.util.List;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -36,13 +36,12 @@ public class RobotContainer {
                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
                 ));
 
-       //configureButtonBindings();
+       configureButtonBindings();
     }
- /*
+ 
     private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
+        new JoystickButton(driverJoytick, 2).whileTrue(swerveSubsystem.zeroHeading());
     }
-
     
     public Command getAutonomousCommand() {
         // 1. Create trajectory settings
@@ -68,20 +67,20 @@ public class RobotContainer {
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         // 4. Construct command to follow trajectory
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::setModuleStates,
-                swerveSubsystem);
-
+       SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+               trajectory,
+               swerveSubsystem::getPose,
+               DriveConstants.kDriveKinematics,
+               xController,
+               yController,
+               thetaController,
+               swerveSubsystem::setModuleStates,
+               swerveSubsystem);
+ 
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-                swerveControllerCommand,
+              //  swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
-    }*/
+    }
 }

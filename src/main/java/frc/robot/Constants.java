@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+//import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -10,13 +11,21 @@ public final class Constants {
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(3.8);
         public static final double kDriveMotorGearRatio = 1/6.75;
-        public static final double kTurningMotorGearRatio = 1/(150/7);
+        //public static final double kTurningMotorGearRatio = 1/(150/7);
+        public static final double kTurningMotorGearRatio = .04;
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio*Math.PI*kWheelDiameterMeters;   
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio*2*Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter/60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad/60;
         public static final double kpTurning = .5;
+        public static final double positionCounts = 42;
+
+
+       // public static SwerveModulePosition[] t = positionCounts * (kWheelDiameterMeters / (kDriveMotorGearRatio * 2048.0));
+        
     }
+    
+
 
     public static final class DriveConstants {
 
@@ -69,15 +78,15 @@ public final class Constants {
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
-                kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = 
+                                   kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
     }
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kMaxAngularSpeedRadiansPerSecond = //
+        public static final double kMaxAngularSpeedRadiansPerSecond = 
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
@@ -85,7 +94,7 @@ public final class Constants {
         public static final double kPYController = 1.5;
         public static final double kPThetaController = 3;
 
-        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
                 new TrapezoidProfile.Constraints(
                         kMaxAngularSpeedRadiansPerSecond,
                         kMaxAngularAccelerationRadiansPerSecondSquared);
@@ -97,7 +106,7 @@ public final class Constants {
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverRotAxis = 4;
-        public static final int kDriverFieldOrientedButtonIdx = 1;
+       public static final int kDriverFieldOrientedButtonIdx = 1;
 
         public static final double kDeadband = 0.05;
     }

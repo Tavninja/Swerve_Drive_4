@@ -51,8 +51,8 @@ public class SwerveJoystickCmd extends Command {
         ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         turningSpeed = turningLimiter.calculate(turningSpeed)
                 * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-    }
-       /*  // 4. Construct desired chassis speeds
+    
+         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
             // Relative to field
@@ -68,8 +68,8 @@ public class SwerveJoystickCmd extends Command {
 
         // 6. Output each module states to wheels
         swerveSubsystem.setModuleStates(moduleStates);
+    
     }
-*/
     @Override
     public void end(boolean interrupted) {
         swerveSubsystem.stopModules();
@@ -79,4 +79,5 @@ public class SwerveJoystickCmd extends Command {
     public boolean isFinished() {
         return false;
     }
+
 }
