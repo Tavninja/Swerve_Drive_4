@@ -24,9 +24,6 @@ public final class Constants {
        // public static SwerveModulePosition[] t = positionCounts * (kWheelDiameterMeters / (kDriveMotorGearRatio * 2048.0));
         
     }
-    
-
-
     public static final class DriveConstants {
 
         public static final double kTrackWidth = Units.inchesToMeters(22.6);
@@ -101,7 +98,7 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final int kDriverControllerPort = 0;
+        public static final int kDriverControllerPort = 1;
 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
