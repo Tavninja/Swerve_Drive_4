@@ -32,16 +32,11 @@ public class RobotContainer {
                 swerveSubsystem,
                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
                 () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
+                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis)
                 ));
 
-       configureButtonBindings();
     }
- 
-    private void configureButtonBindings() {
-        new JoystickButton(driverJoytick, 2).whileTrue(swerveSubsystem.zeroHeading());
-    }
+
     
     public Command getAutonomousCommand() {
         // 1. Create trajectory settings
@@ -67,19 +62,9 @@ public class RobotContainer {
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         // 4. Construct command to follow trajectory
-       SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-               trajectory,
-               swerveSubsystem::getPose,
-               DriveConstants.kDriveKinematics,
-               xController,
-               yController,
-               thetaController,
-               swerveSubsystem::setModuleStates,
-               swerveSubsystem);
- 
+
         // 5. Add some init and wrap-up, and return everything
         return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
               //  swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules()));
     }
