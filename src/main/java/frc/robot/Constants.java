@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Map;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -68,8 +70,14 @@ public final class Constants {
 
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0;
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; //120 degrees
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0;
+        // Math.PI/12      = 15 degrees
+        // Math.PI/6       = 30 degrees
+        // Math.PI/4       = 45 degrees
+        // Math.PI/3       = 60 degrees
+        // (5* Math.PI)/12 = 75 degrees
+        // Math.PI/2       = 90 degrees
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
