@@ -12,19 +12,16 @@ public final class Constants {
 
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(3.8);
-        public static final double kDriveMotorGearRatio = 1/6.75;
+        public static final double kDriveMotorGearRatio = .01;
         //public static final double kTurningMotorGearRatio = 1/(150/7);
-        public static final double kTurningMotorGearRatio = .04;
+        public static final double kTurningMotorGearRatio = .04666666666666666666666666666;
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio*Math.PI*kWheelDiameterMeters;   
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio*2*Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter/60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad/60;
-        public static final double kpTurning = .5;
+        public static final double kpTurning = .1;
         public static final double positionCounts = 42;
-
-
-       // public static SwerveModulePosition[] t = positionCounts * (kWheelDiameterMeters / (kDriveMotorGearRatio * 2048.0));
-        
+ 
     }
     public static final class DriveConstants {
 
@@ -70,7 +67,7 @@ public final class Constants {
 
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0;
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; //120 degrees
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0;
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0;
         // Math.PI/12      = 15 degrees
         // Math.PI/6       = 30 degrees
@@ -106,12 +103,16 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final int kDriverControllerPort = 1;
+        public static final int kDriverControllerPort = 0;
 
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverRotAxis = 4;
-       public static final int kDriverFieldOrientedButtonIdx = 1;
+        public static final int kDriverFieldOrientedButtonIdx = 1;
+
+        public static final int kManipulatorControllerPort = 1;
+
+        public static final int kManipulatorShootButtonIdx = 1;
 
         public static final double kDeadband = 0.05;
     }

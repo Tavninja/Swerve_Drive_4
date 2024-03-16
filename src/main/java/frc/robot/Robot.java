@@ -4,9 +4,19 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.SwerveModule;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,6 +28,21 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+    
+    final XboxController manipulatorJoystick = new XboxController(1);
+
+    double ShootSpeed = 1;
+    double intakeSpeed = 1;
+    double LiftSpeed = 1;
+
+    CANSparkMax IntakeTop = new CANSparkMax(11, MotorType.kBrushless);
+    CANSparkMax IntakeBottom = new CANSparkMax(12, MotorType.kBrushless);
+    TalonFX LiftLeft = new TalonFX(13);
+    TalonFX LiftRight = new TalonFX(14);
+    TalonFX ShootLeft = new TalonFX(15);
+    TalonFX ShootRight = new TalonFX(16);
+
+
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
@@ -100,6 +125,42 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        
+
+
+        //Shoot -----------------------------------------------------
+        if(manipulatorJoystick.getRightTriggerAxis() >=.5){
+            ShootLeft.set(ShootSpeed);
+            ShootRight.set(-ShootSpeed);
+        } else if(manipulatorJoystick.getLeftTriggerAxis() >= .5) {
+            ShootLeft.set(-ShootSpeed);
+            ShootRight.set(ShootSpeed);
+        }else {
+            ShootLeft.set(0);
+            ShootRight.set(0);
+        }
+        //Lift -------------------------------------------------------
+        if(manipulatorJoystick.getRightBumper()){
+            LiftLeft.set(LiftSpeed);
+            LiftRight.set(-LiftSpeed); 
+        } else if (manipulatorJoystick.getLeftBumper()){
+            LiftLeft.set(-LiftSpeed);
+            LiftRight.set(LiftSpeed);
+        } else {
+            LiftLeft.set(0);
+            LiftRight.set(0);
+        }
+        //Intake ------------------------------------------------------
+        if(manipulatorJoystick.getAButton()){
+            IntakeBottom.set(intakeSpeed);
+            IntakeTop.set(-intakeSpeed);
+        } else if(manipulatorJoystick.getBButton()){
+            IntakeBottom.set(-intakeSpeed);
+            IntakeTop.set(intakeSpeed);
+        } else{
+            IntakeBottom.set(0);
+            IntakeTop.set(0);
+        }
     }
 
     @Override
