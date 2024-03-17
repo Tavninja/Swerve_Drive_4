@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
     final XboxController manipulatorJoystick = new XboxController(1);
 
     double ShootSpeed = 1;
-    double intakeSpeed = 1;
-    double LiftSpeed = 1;
+    double intakeSpeed = .7;
+    double LiftSpeed = .35;
 
     CANSparkMax IntakeTop = new CANSparkMax(11, MotorType.kBrushless);
     CANSparkMax IntakeBottom = new CANSparkMax(12, MotorType.kBrushless);
