@@ -93,7 +93,7 @@ public class SwerveModule {
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        driveMotor.set((state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond)*2);
+        driveMotor.set((state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond)*3);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
         //SmartDashboard.putString("encoder [" + absoluteEncoder.getChannel()+ "] pos", absoluteEncoder.getVoltage()/RobotController.getVoltage5V());
