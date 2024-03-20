@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import java.util.Set;
+
+import javax.lang.model.util.ElementScanner14;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -17,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveModule;
 
@@ -39,18 +44,6 @@ public class Robot extends TimedRobot {
 
     CANSparkMax IntakeTop = new CANSparkMax(11, MotorType.kBrushless);
     CANSparkMax IntakeBottom = new CANSparkMax(12, MotorType.kBrushless);
-    
-    static CANSparkMax frontLeftDrive = new CANSparkMax(5, MotorType.kBrushless);
-    static CANSparkMax backLeftDrive = new CANSparkMax(7, MotorType.kBrushless);
-    static CANSparkMax frontRightDrive = new CANSparkMax(6, MotorType.kBrushless);
-    static CANSparkMax backRightDrive = new CANSparkMax(5, MotorType.kBrushless);
-
-    static CANSparkMax frontLeftTurning = new CANSparkMax(1, MotorType.kBrushless);
-    static CANSparkMax backLeftTurning = new CANSparkMax(3, MotorType.kBrushless);
-    static CANSparkMax frontRightTurning = new CANSparkMax(2, MotorType.kBrushless);
-    static CANSparkMax BackRightTurning = new CANSparkMax(4, MotorType.kBrushless);
-
-    CANSparkMax CA
 
     TalonFX LiftLeft = new TalonFX(13);
     TalonFX LiftRight = new TalonFX(14);
@@ -77,8 +70,8 @@ public class Robot extends TimedRobot {
         // Auto Switcher ----------------------------------------------------
    m_chooser.setDefaultOption("Stay Still", Stay_Still);
    m_chooser.addOption("Backward", Backward);
-   m_chooser.addOption("Shoot_Back_Short", Shoot_Back);
-   m_chooser.addOption("Shoot_Back_Long", Shoot_Still);
+   m_chooser.addOption("Shoot_Back", Shoot_Back);
+   m_chooser.addOption("Shoot_Still", Shoot_Still);
 
    SmartDashboard.putData("Auto choices", m_chooser);
     }
@@ -115,10 +108,6 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
     }
 
-    public double getTurningPosition() {
-        return turningEncoder.getPosition();
-    }
-
     /**
      * This autonomous runs the autonomous command selected by your
      * {@link RobotContainer} class.
@@ -134,8 +123,12 @@ public class Robot extends TimedRobot {
         private double step6Time = step5Time + 1; //
         private static final String Stay_Still = "Still";
         private static final String Backward = "Backward";
-        private static final String Shoot_Back = "Shoot_Backwards";
+        private static final String Shoot_Back = "Shoot_Back";
         private static final String Shoot_Still = "Shoot_Still";
+
+        private final void stopped(){
+          SwerveModule.driveMotor.set(1);
+        }
 
 
     private String m_autoSelected;
@@ -143,39 +136,6 @@ public class Robot extends TimedRobot {
 
 // Movement functions ------------------------------------------------
 
-    static void Forward(){
-     frontLeftDrive.set(.5);
-     backLeftDrive.set(.5);
-     frontRightDrive.set(.5);
-     backRightDrive.set(.5);
-
-     frontLeftDrive.getPosition();
-
-    }   
-    static void Backwards(){
-     frontLeftDrive.set(.5);
-     backLeftDrive.set(.5);
-     frontRightDrive.set(.5);
-     backRightDrive.set(.5);
-    }
-    static void Left(){
-     frontLeftDrive.set(.5);
-     backLeftDrive.set(.5);
-     frontRightDrive.set(.5);
-     backRightDrive.set(.5);
-    }
-    static void Right(){
-     frontLeftDrive.set(.5);
-     backLeftDrive.set(.5);
-     frontRightDrive.set(.5);
-     backRightDrive.set(.5);
-    }
-    static void Stoped(){
-     frontLeftDrive.set(0);
-     backLeftDrive.set(0);
-     frontRightDrive.set(0);
-     backRightDrive.set(0);
-    }
     @Override
     public void autonomousInit() {
         m_autoSelected = m_chooser.getSelected();
@@ -188,43 +148,100 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
+       
         switch (m_autoSelected) {
             case Backward:
             if (timer.get() <= step1Time) {
-             Backwards();
+             SwerveModule.Backwards();
            } else if (timer.get() <= step2Time) {
-             Backwards();
+             SwerveModule.driveMotor.set(.5);
            } else if (timer.get() <= step3Time) {
-             Stoped();
+             SwerveModule.stop();
            }else if (timer.get() <= step4Time) {
-             Stoped();
+             SwerveModule.stop();
            } else if (timer.get() <= step5Time) {
-             Stoped();
+             SwerveModule.stop();
            } else if (timer.get() <= step6Time){
-             Stoped();
+             SwerveModule.stop();
            } else {
-             Stoped();
            }
              break;
 
-           case Stay_Still: //--------------------------Red 1
+           case Stay_Still:
            if (timer.get() <= step1Time) {
-            Backwards();
+            SwerveModule.stop();
           } else if (timer.get() <= step2Time) {
-            Backwards();
+            SwerveModule.stop();
           } else if (timer.get() <= step3Time) {
-            Stoped();
+            SwerveModule.stop();
           }else if (timer.get() <= step4Time) {
-            Stoped();
+            SwerveModule.stop();
           } else if (timer.get() <= step5Time) {
-            Stoped();
+            SwerveModule.stop();
           } else if (timer.get() <= step6Time){
-            Stoped();
+            SwerveModule.stop();
           } else {
-            Stoped();
+          }
+            break;
+
+            case Shoot_Still:
+           if (timer.get() <= step1Time) {
+            SwerveModule.stop();
+              ShootLeft.set(ShootSpeed);
+              ShootRight.set(-ShootSpeed);
+          } else if (timer.get() <= step2Time) {
+            SwerveModule.stop();
+              ShootLeft.set(ShootSpeed);
+              ShootRight.set(-ShootSpeed);
+             
+          } else if (timer.get() <= step3Time) {
+            SwerveModule.stop();
+              ShootLeft.set(ShootSpeed);
+              ShootRight.set(-ShootSpeed);
+              IntakeBottom.set(-intakeSpeed);
+              IntakeTop.set(intakeSpeed);
+          }else if (timer.get() <= step4Time) {
+              ShootLeft.set(0);
+              ShootRight.set(0);
+              IntakeBottom.set(0);
+              IntakeTop.set(0);
+            SwerveModule.stop();
+          } else if (timer.get() <= step5Time) {
+            SwerveModule.stop();
+          } else if (timer.get() <= step6Time){
+            SwerveModule.stop();
+          } else {
+          }
+            break;
+
+            case Shoot_Back:
+           if (timer.get() <= step1Time) {
+            SwerveModule.stop();
+              ShootLeft.set(ShootSpeed);
+              ShootRight.set(-ShootSpeed);
+          } else if (timer.get() <= step2Time) {
+            SwerveModule.stop();
+              ShootLeft.set(ShootSpeed);
+              ShootRight.set(-ShootSpeed);
+              IntakeBottom.set(-intakeSpeed);
+              IntakeTop.set(intakeSpeed);
+          } else if (timer.get() <= step3Time) {
+            SwerveModule.stop();
+              ShootLeft.set(0);
+              ShootRight.set(0);
+              IntakeBottom.set(0);
+              IntakeTop.set(0);
+          }else if (timer.get() <= step4Time) {
+            SwerveModule.Backwards();
+          } else if (timer.get() <= step5Time) {
+            SwerveModule.Backwards();
+          } else if (timer.get() <= step6Time){
+            SwerveModule.stop();
+          } else {
           }
             break;
         }
+        */
     }
 
     @Override
@@ -242,8 +259,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         
-
-
         //Shoot -----------------------------------------------------
         if(manipulatorJoystick.getRightTriggerAxis() >=.5){
             ShootLeft.set(ShootSpeed);

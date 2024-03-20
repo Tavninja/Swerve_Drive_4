@@ -16,7 +16,7 @@ import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule {
 
-    private final CANSparkMax driveMotor;
+    public final CANSparkMax driveMotor;
     private final CANSparkMax turningMotor;
 
     private final RelativeEncoder driveEncoder;
@@ -98,9 +98,15 @@ public class SwerveModule {
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
         //SmartDashboard.putString("encoder [" + absoluteEncoder.getChannel()+ "] pos", absoluteEncoder.getVoltage()/RobotController.getVoltage5V());
     }
-
-    public void stop() {
+ 
+    public  void stop() {
         driveMotor.set(0);
         turningMotor.set(0);
     }
+
+    public void Backwards(){
+        driveMotor.set(0);
+        turningMotor.set(0);
+    }
+
 }
